@@ -1,0 +1,40 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/vishalgowda/Team-Meow-Blockchain-Track/contracts/JudicialEvidenceLedger.sol": {
+      "lastModificationDate": 1769525384167,
+      "contentHash": "50e6bac1612a73fa99fb8a35b9985e45",
+      "sourceName": "contracts/JudicialEvidenceLedger.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.17"
+      ],
+      "artifacts": [
+        "JudicialEvidenceLedger"
+      ]
+    }
+  }
+}
