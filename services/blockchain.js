@@ -107,30 +107,23 @@ async function getEvidence(evidenceId) {
   return mockDB.evidence.get(evidenceId) || null;
 }
 
-// get custody history
+// get custody history (getCustodyTrail in smart contract)
 async function getCustodyHistory(evidenceId) {
   const chainUp = await isChainUp();
 
   if (chainUp && CONTRACT_ADDR !== "0xYOUR_CONTRACT_ADDRESS") {
     try {
-      return await contract.methods.getCustodyHistory(evidenceId).call();
+      return await contract.methods.getCustodyTrail(evidenceId).call();
     } catch (e) { /* fall through */ }
   }
 
   return mockDB.history.get(evidenceId) || [];
 }
 
-// get all evidence for a case
+// get all evidence for a case (not available in smart contract, uses mock storage)
 async function getAllCaseEvidence(caseId) {
-  const chainUp = await isChainUp();
-
-  if (chainUp && CONTRACT_ADDR !== "0xYOUR_CONTRACT_ADDRESS") {
-    try {
-      return await contract.methods.getAllCaseEvidence(caseId).call();
-    } catch (e) { /* fall through */ }
-  }
-
-  // mock - filter by case
+  // Note: This method is not in the smart contract ABI
+  // It only works with mock storage for now
   const results = [];
   for (const [id, ev] of mockDB.evidence) {
     if (ev.caseId === caseId) results.push(ev);
