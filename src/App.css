@@ -1,5 +1,6 @@
 .app-shell {
   min-height: 100vh;
+  overflow: hidden;
 }
 
 main {
@@ -7,6 +8,11 @@ main {
   margin: 0 auto;
   padding: 64px 40px 100px;
   position: relative;
+}
+
+main:has(.page[style*="height: 100vh"]) {
+  padding: 0;
+  max-width: 100%;
 }
 
 .topbar {

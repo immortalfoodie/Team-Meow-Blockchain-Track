@@ -16,36 +16,40 @@ export default function Home() {
       transition: 'opacity 1s ease',
       padding: 0,
       maxWidth: '100%',
-      background: '#e8e5d8'
+      background: '#e8e5d8',
+      height: '100vh',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column'
     }}>
       {/* Hero Section */}
       <div style={{
-        minHeight: '90vh',
+        flex: 1,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         background: '#e8e5d8',
-        padding: '60px 40px',
+        padding: '20px',
         textAlign: 'center',
         position: 'relative'
       }}>
         {/* Logo Circle */}
         <div style={{
-          width: '160px',
-          height: '160px',
+          width: '120px',
+          height: '120px',
           borderRadius: '50%',
           background: '#757f5f',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: '48px',
+          marginBottom: '32px',
           opacity: animate ? 1 : 0,
           transform: animate ? 'scale(1) translateY(0)' : 'scale(0.8) translateY(20px)',
           transition: 'all 1s cubic-bezier(0.4, 0, 0.2, 1)',
           boxShadow: '0 8px 24px rgba(117, 127, 95, 0.2)'
         }}>
-          <span style={{ fontSize: '5rem' }}>⚖️</span>
+          <span style={{ fontSize: '3.5rem' }}>⚖️</span>
         </div>
 
         {/* Title Section */}
@@ -67,26 +71,25 @@ export default function Home() {
           </div>
 
           <h1 style={{
-            fontSize: '3rem',
+            fontSize: '2.5rem',
             fontWeight: 700,
             lineHeight: '1.2',
             color: '#3a3d34',
-            marginBottom: '32px',
+            marginBottom: '20px',
             letterSpacing: '-0.02em'
           }}>
             Judicial Evidence Chain
           </h1>
 
           <p style={{
-            fontSize: '1.125rem',
-            lineHeight: '1.7',
+            fontSize: '1rem',
+            lineHeight: '1.6',
             color: '#6b6d66',
-            marginBottom: '48px',
+            marginBottom: '32px',
             maxWidth: '600px',
-            margin: '0 auto 48px'
+            margin: '0 auto 32px'
           }}>
-            Secure, immutable evidence management powered by blockchain technology. 
-            Ensuring integrity and transparency in the judicial process.
+            Secure, immutable evidence management powered by blockchain technology.
           </p>
 
           {/* CTA Button */}
@@ -140,7 +143,7 @@ export default function Home() {
         {/* Loading Dots Indicator */}
         <div style={{
           position: 'absolute',
-          bottom: '60px',
+          bottom: '30px',
           display: 'flex',
           gap: '12px',
           opacity: animate ? 0.4 : 0,
@@ -167,97 +170,6 @@ export default function Home() {
             background: '#757f5f',
             animation: 'pulse 1.5s ease-in-out infinite 0.4s'
           }}></div>
-        </div>
-      </div>
-
-      {/* Features Section */}
-      <div style={{
-        background: '#f5f2e8',
-        padding: '80px 40px',
-        opacity: animate ? 1 : 0,
-        transition: 'opacity 1s ease 0.5s'
-      }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '60px'
-        }}>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              margin: '0 auto 24px',
-              borderRadius: '50%',
-              background: '#757f5f',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2rem'
-            }}>🔒</div>
-            <h3 style={{ 
-              fontSize: '1.25rem', 
-              fontWeight: 600, 
-              marginBottom: '12px',
-              color: '#3a3d34'
-            }}>Immutable Records</h3>
-            <p style={{ 
-              fontSize: '0.9375rem', 
-              color: '#6b6d66',
-              lineHeight: '1.6'
-            }}>Blockchain-anchored evidence that cannot be altered or deleted</p>
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              margin: '0 auto 24px',
-              borderRadius: '50%',
-              background: '#757f5f',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2rem'
-            }}>🔗</div>
-            <h3 style={{ 
-              fontSize: '1.25rem', 
-              fontWeight: 600, 
-              marginBottom: '12px',
-              color: '#3a3d34'
-            }}>Chain of Custody</h3>
-            <p style={{ 
-              fontSize: '0.9375rem', 
-              color: '#6b6d66',
-              lineHeight: '1.6'
-            }}>Complete audit trail from collection to courtroom</p>
-          </div>
-
-          <div style={{ textAlign: 'center' }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              margin: '0 auto 24px',
-              borderRadius: '50%',
-              background: '#757f5f',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '2rem'
-            }}>✓</div>
-            <h3 style={{ 
-              fontSize: '1.25rem', 
-              fontWeight: 600, 
-              marginBottom: '12px',
-              color: '#3a3d34'
-            }}>Role-Based Access</h3>
-            <p style={{ 
-              fontSize: '0.9375rem', 
-              color: '#6b6d66',
-              lineHeight: '1.6'
-            }}>Secure authentication for officers, analysts, and judges</p>
-          </div>
         </div>
       </div>
     </div>
