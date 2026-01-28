@@ -1,0 +1,302 @@
+QUICK REFERENCE - FRONTEND-BACKEND MAPPING
+==========================================
+
+BACKEND FILES → FRONTEND COMPONENTS MAPPING
+
+Services Layer
+═════════════
+
+users.js
+├─ Login: login() ──→ AuthContext.tsx
+├─ Profile: getProfile() ──→ TopBar.tsx (optional)
+├─ All Users: getAllUsers() ──→ AuditorDashboard.tsx
+└─ Add User: addUser() ──→ (Admin panel - not in UI)
+
+blockchain.js
+├─ Add Evidence: addEvidence() ──→ EvidenceRegistration.tsx
+├─ Transfer: transferCustody() ──→ CustodyTransfer.tsx
+├─ Get Evidence: getEvidence() ──→ EvidenceVerification.tsx
+├─ History: getCustodyHistory() ──→ AnalystDashboard.tsx
+└─ Health: getConnectionStatus() ──→ Health check endpoint
+
+hash.js
+└─ Generate Hash: generateHash() ──→ (Called on file upload in backend)
+
+audit.js
+├─ Log Action: logAction() ──→ (Called on all backend actions)
+├─ Get Logs: getLogs() ──→ (Available, not fully used in UI)
+├─ Evidence History: getEvidenceHistory() ──→ AnalystDashboard.tsx
+└─ Stats: getStats() ──→ AuditorDashboard.tsx
+
+Routes Layer
+════════════
+
+/api/auth
+├─ POST /login ──→ AuthContext.tsx (login form)
+├─ GET /profile ──→ Available (not used)
+├─ POST /register ──→ Available (admin only, no UI)
+├─ GET /users ──→ AuditorDashboard.tsx
+└─ POST /verify-token ──→ Available (optional)
+
+/api/evidence
+├─ POST /upload ──→ EvidenceRegistration.tsx
+├─ POST /transfer ──→ CustodyTransfer.tsx
+├─ POST /verify ──→ EvidenceVerification.tsx
+├─ GET /:id ──→ AnalystDashboard.tsx (detail view)
+├─ GET /:id/history ──→ AnalystDashboard.tsx
+├─ GET /case/:caseId ──→ Available (optional)
+├─ GET /:id/audit ──→ Available (optional)
+└─ GET /assigned ──→ AnalystDashboard.tsx
+
+Middleware Layer
+════════════════
+
+auth.js
+├─ verifyToken() ──→ All protected endpoints
+└─ allowRoles() ──→ All role-restricted endpoints
+
+USER ROLES MAPPING
+══════════════════
+
+POLICE
+├─ Endpoints: POST /login, POST /upload, POST /transfer
+├─ Pages: /police, /police/register, /police/transfer
+├─ Components: PoliceDashboard, EvidenceRegistration, CustodyTransfer
+└─ Actions: Register evidence, Transfer custody, View history
+
+LAB
+├─ Endpoints: POST /login, GET /assigned, GET /history, POST /transfer
+├─ Pages: /analyst
+├─ Components: AnalystDashboard
+└─ Actions: View assigned evidence, Review details, Transfer custody
+
+JUDGE
+├─ Endpoints: POST /login, GET /assigned, POST /verify, GET /history, GET /audit
+├─ Pages: /judge, /judge/verify
+├─ Components: JudgeDashboard, EvidenceVerification
+└─ Actions: Verify integrity, View history, View audit trail
+
+ADMIN
+├─ Endpoints: POST /login, GET /users, GET /audit
+├─ Pages: /auditor
+├─ Components: AuditorDashboard
+└─ Actions: View users, View audit trail, Monitor system
+
+DEMO CREDENTIALS
+════════════════
+
+Police:  officer_sharma / police123
+Lab:     lab_verma / lab123
+Judge:   judge_mehta / judge123
+Admin:   admin / admin123
+
+ENVIRONMENT VARIABLES
+═════════════════════
+
+Frontend:
+VITE_API_URL=http://localhost:5000/api
+
+Backend:
+PORT=5000
+JWT_SECRET=dev-secret-123
+JWT_EXPIRES_IN=24h
+
+API AUTHENTICATION
+══════════════════
+
+1. Login: POST /api/auth/login
+   Request: { username, password }
+   Response: { token, user }
+
+2. Store: localStorage.setItem('jwt', token)
+
+3. Use: Authorization: Bearer <token> in all requests
+
+4. API Client: Automatic injection via axios interceptor
+
+STARTUP COMMANDS
+════════════════
+
+Terminal 1 - Backend:
+cd meow-backend/backend
+npm install
+npm start
+
+Terminal 2 - Frontend:
+cd Team-Meow-Blockchain-Track-frontend
+npm install
+npm run dev
+
+BROWSER TEST
+════════════
+
+URL: http://localhost:5173
+Login: officer_sharma / police123
+Features: Register evidence, transfer custody, view history
+
+FULL ENDPOINT LIST
+══════════════════
+
+AUTH Endpoints:
+✅ POST   /api/auth/login
+✅ GET    /api/auth/profile
+✅ POST   /api/auth/register (admin)
+✅ GET    /api/auth/users (admin)
+✅ POST   /api/auth/verify-token
+
+EVIDENCE Endpoints:
+✅ POST   /api/evidence/upload (police)
+✅ POST   /api/evidence/transfer (police, lab)
+✅ POST   /api/evidence/verify (judge)
+✅ GET    /api/evidence/:id
+✅ GET    /api/evidence/:id/history
+✅ GET    /api/evidence/case/:caseId
+✅ GET    /api/evidence/:id/audit (judge, admin)
+✅ GET    /api/evidence/assigned (lab, judge)
+
+HEALTH Endpoint:
+✅ GET    /api/health
+
+FRONTEND STRUCTURE
+══════════════════
+
+src/
+├─ pages/
+│  ├─ Home.tsx (public)
+│  ├─ Login.tsx (public)
+│  ├─ PoliceDashboard.tsx (POLICE)
+│  ├─ EvidenceRegistration.tsx (POLICE)
+│  ├─ CustodyTransfer.tsx (POLICE, LAB)
+│  ├─ AnalystDashboard.tsx (LAB)
+│  ├─ JudgeDashboard.tsx (JUDGE)
+│  ├─ EvidenceVerification.tsx (JUDGE)
+│  └─ AuditorDashboard.tsx (ADMIN)
+├─ components/
+│  ├─ ProtectedRoute.tsx (auth check)
+│  └─ TopBar.tsx (nav)
+├─ context/
+│  └─ AuthContext.tsx (auth state)
+├─ api/
+│  └─ api.ts (all endpoints)
+└─ App.tsx (routing)
+
+BACKEND STRUCTURE
+═════════════════
+
+backend/
+├─ server.js (main app)
+├─ routes/
+│  ├─ auth.js (auth endpoints)
+│  └─ evidence.js (evidence endpoints)
+├─ services/
+│  ├─ users.js (user db)
+│  ├─ blockchain.js (blockchain)
+│  ├─ hash.js (file hashing)
+│  └─ audit.js (audit logging)
+├─ middleware/
+│  └─ auth.js (JWT validation)
+├─ abi/
+│  └─ EvidenceABI.json
+├─ contracts/
+│  └─ JudicialEvidenceLedger.sol
+└─ uploads/ (file storage)
+
+WORKFLOW EXAMPLES
+═════════════════
+
+Evidence Upload:
+1. PoliceDashboard → EvidenceRegistration
+2. User selects file + enters evidence ID
+3. FormData sent to POST /api/evidence/upload
+4. Backend: generates hash, stores on blockchain
+5. Response: evidenceId, hash, txHash
+6. Success message shown to user
+
+Evidence Analysis:
+1. AnalystDashboard → fetchAssignedEvidence()
+2. Calls GET /api/evidence/assigned
+3. Display list of assigned evidence
+4. Click item → getEvidenceCustodyHistory()
+5. Shows detail + custody chain
+
+Evidence Verification:
+1. JudgeDashboard → EvidenceVerification
+2. User enters evidence ID + uploads file
+3. Calls POST /api/evidence/verify
+4. Backend: compares hashes
+5. Response: verified true/false
+6. Display result with report
+
+BLOCKCHAIN INTEGRATION
+══════════════════════
+
+Available:
+- Ganache (local): http://127.0.0.1:7545
+- Sepolia (testnet): Via Alchemy/Infura
+
+Features:
+- Evidence hashing (SHA256)
+- On-chain notarization
+- Transaction references
+- Custody chain recording
+
+Fallback:
+- Mock storage when blockchain unavailable
+- System continues operating
+- Data marked as "pending confirmation"
+
+DATABASE STATUS
+════════════════
+
+Current: In-memory (users.js, blockchain.js, audit.js)
+Users: 7 pre-configured (2 police, 2 lab, 2 judges, 1 admin)
+Evidence: Mock data from /assigned endpoint
+Audit: In-memory logs
+
+Production: Needs real database (MongoDB, PostgreSQL, etc.)
+
+SECURITY
+════════
+
+Authentication:
+✅ JWT token (24h expiry)
+✅ Token stored in localStorage
+✅ Auto-injection via axios
+
+Authorization:
+✅ Role-based access (RBAC)
+✅ Backend validation
+✅ Frontend route protection
+
+Hashing:
+✅ SHA256 file hashing
+✅ Hash comparison on verify
+✅ Blockchain immutability
+
+Audit:
+✅ All actions logged
+✅ User/role captured
+✅ Timestamp recorded
+✅ Error logging
+
+DEPLOYMENT CHECKLIST
+════════════════════
+
+Before Production:
+□ Change JWT_SECRET to strong random value
+□ Set up production database
+□ Configure blockchain network
+□ Set NODE_ENV=production
+□ Enable CORS for production domain
+□ Set VITE_API_URL to production URL
+□ Implement rate limiting
+□ Set up monitoring/logging
+□ Test all 4 roles
+□ Backup configuration
+□ Security audit
+□ Load testing
+□ Disaster recovery plan
+
+═════════════════════════════════════════════════════════════════════════════
+System is FULLY CONNECTED and READY FOR TESTING
+═════════════════════════════════════════════════════════════════════════════
