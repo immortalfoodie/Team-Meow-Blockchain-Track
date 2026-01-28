@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { registerEvidence } from '../api/api'
 
 export default function EvidenceRegistration() {
@@ -7,6 +7,11 @@ export default function EvidenceRegistration() {
   const [file, setFile] = useState<File | null>(null)
   const [status, setStatus] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    setAnimate(true)
+  }, [])
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -32,7 +37,7 @@ export default function EvidenceRegistration() {
 
   return (
     <div className="page">
-      <div className="card">
+      <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out' }}>
         <h1>Register Evidence</h1>
         <p className="muted">Uploads are hashed server-side; only hashes anchor to the chain.</p>
         <form className="form" onSubmit={handleSubmit}>

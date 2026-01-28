@@ -1,8 +1,15 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 export default function JudgeDashboard() {
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    setAnimate(true)
+  }, [])
+
   return (
-    <div className="page">
+    <div className="page" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out' }}>
       <div className="hero">
         <div>
           <p className="muted">Integrity & Admissibility</p>
@@ -15,7 +22,7 @@ export default function JudgeDashboard() {
           </div>
         </div>
       </div>
-      <div className="card">
+      <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out 0.2s' }}>
         <h3>Verification approach</h3>
         <ul className="list">
           <li>Upload a copy of the evidence file provided for court</li>

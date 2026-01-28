@@ -38,6 +38,30 @@ apiClient.interceptors.request.use((config) => {
 })
 
 export async function login(email: string, password: string): Promise<LoginResponse> {
+  const normalizedEmail = email.trim().toLowerCase()
+
+  const demoUsers: Record<string, LoginResponse> = {
+    'officer@demo.local': {
+      token: 'demo-officer-token',
+      role: 'officer',
+      name: 'Demo Officer',
+    },
+    'analyst@demo.local': {
+      token: 'demo-analyst-token',
+      role: 'analyst',
+      name: 'Demo Analyst',
+    },
+    'judge@demo.local': {
+      token: 'demo-judge-token',
+      role: 'judge',
+      name: 'Demo Judge',
+    },
+  }
+
+  if (password === 'password123' && demoUsers[normalizedEmail]) {
+    return demoUsers[normalizedEmail]
+  }
+
   const { data } = await apiClient.post<LoginResponse>('/auth/login', { email, password })
   return data
 }

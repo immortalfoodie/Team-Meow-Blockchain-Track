@@ -1,23 +1,24 @@
 :root {
-  --bg-body: #050816;
-  --bg-card: rgba(15, 23, 42, 0.96);
-  --bg-elevated: rgba(15, 23, 42, 0.9);
-  --accent-primary: #38bdf8;
-  --accent-secondary: #a855f7;
-  --accent-judge: #f97316;
-  --accent-analyst: #22c55e;
-  --accent-officer: #3b82f6;
-  --border-subtle: rgba(148, 163, 184, 0.4);
-  --text-main: #e5e7eb;
-  --text-muted: #9ca3af;
-  --radius-lg: 18px;
-  --radius-xl: 26px;
-  --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.75);
+  --bg-body: #f5f1e8;
+  --bg-card: #fdfbf7;
+  --bg-elevated: #ffffff;
+  --accent-primary: #8b5a2b;
+  --accent-secondary: #6b7280;
+  --accent-judge: #92400e;
+  --accent-analyst: #065f46;
+  --accent-officer: #1e3a8a;
+  --border-subtle: #e8dfc8;
+  --border-default: #d4c5a9;
+  --text-main: #2c1810;
+  --text-muted: #7d6b5a;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.05);
 
-  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   color: var(--text-main);
   background: var(--bg-body);
-  line-height: 1.5;
+  line-height: 1.6;
   font-weight: 400;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -32,28 +33,21 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.25), transparent 55%),
-    radial-gradient(circle at 90% 0%, rgba(168, 85, 247, 0.25), transparent 55%),
-    radial-gradient(circle at 50% 100%, rgba(8, 47, 73, 0.9), #020617);
+  background: var(--bg-body);
+  background-image: 
+    repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(139, 90, 43, 0.02) 35px, rgba(139, 90, 43, 0.02) 70px);
   overflow-x: hidden;
 }
 
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image: linear-gradient(
-      120deg,
-      rgba(148, 163, 184, 0.09) 1px,
-      transparent 1px
-    ),
-    linear-gradient(150deg, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
-  background-size: 60px 60px, 120px 120px;
-  opacity: 0.6;
-  mix-blend-mode: soft-light;
-  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #8b5a2b, #b8860b, #cd853f, #8b5a2b);
+  z-index: 50;
 }
 
 a {

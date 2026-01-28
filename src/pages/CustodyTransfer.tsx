@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { transferCustody } from '../api/api'
 
 export default function CustodyTransfer() {
@@ -7,6 +7,11 @@ export default function CustodyTransfer() {
   const [note, setNote] = useState('')
   const [status, setStatus] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    setAnimate(true)
+  }, [])
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -28,7 +33,7 @@ export default function CustodyTransfer() {
 
   return (
     <div className="page">
-      <div className="card">
+      <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out' }}>
         <h1>Transfer Custody</h1>
         <p className="muted">Document every handoff to preserve evidentiary integrity.</p>
         <form className="form" onSubmit={handleSubmit}>

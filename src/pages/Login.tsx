@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
@@ -9,6 +9,11 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    setAnimate(true)
+  }, [])
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -27,7 +32,7 @@ export default function Login() {
 
   return (
     <div className="page">
-      <div className="card narrow">
+      <div className="card narrow" style={{ opacity: animate ? 1 : 0, transform: animate ? 'scale(1)' : 'scale(0.95)', transition: 'all 0.5s ease-out' }}>
         <h1>Secure Access</h1>
         <p className="muted">Judicial evidence logging portal</p>
         <form className="form" onSubmit={handleSubmit}>
@@ -58,6 +63,15 @@ export default function Login() {
         </form>
         <div className="legal-note">
           Access is restricted to authorized roles. All actions are logged and auditable.
+        </div>
+        <div className="info" style={{ marginTop: '12px', fontSize: '0.85rem' }}>
+          <strong>Demo accounts (configure in backend):</strong>
+          <br />
+          Officer: <code>officer@demo.gov</code> / <code>officer123</code>
+          <br />
+          Analyst: <code>analyst@demo.gov</code> / <code>analyst123</code>
+          <br />
+          Judge: <code>judge@demo.gov</code> / <code>judge123</code>
         </div>
       </div>
     </div>

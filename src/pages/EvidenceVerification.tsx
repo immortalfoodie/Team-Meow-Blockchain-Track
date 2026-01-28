@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { verifyEvidence } from '../api/api'
 
 interface VerificationResult {
@@ -13,6 +13,11 @@ export default function EvidenceVerification() {
   const [result, setResult] = useState<VerificationResult | null>(null)
   const [status, setStatus] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    setAnimate(true)
+  }, [])
 
   const handleSubmit = async (evt: FormEvent) => {
     evt.preventDefault()
@@ -37,7 +42,7 @@ export default function EvidenceVerification() {
 
   return (
     <div className="page role-judge">
-      <div className="card">
+      <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out' }}>
         <h1>Verify Evidence Integrity</h1>
         <p className="muted">Backend compares your upload hash to the on-chain reference; no private keys are handled here.</p>
         <form className="form" onSubmit={handleSubmit}>

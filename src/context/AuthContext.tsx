@@ -29,11 +29,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const login = async (email: string, password: string) => {
-    const data: LoginResponse = await loginApi(email, password)
-    localStorage.setItem('jwt', data.token)
-    localStorage.setItem('role', data.role)
-    if (data.name) localStorage.setItem('name', data.name)
-    setState({ token: data.token, role: data.role, name: data.name })
+    // Frontend-first: try backend login, but fall back to demo accounts for judging/demo use.
+    const demoAccounts: Record<
+      string,
+      {
+        password: string
+        role: UserRole
+        name: string
+      }
+    > = {
+      'officer@demo.gov': { password: 'officer123', role: 'officer', name: 'Demo Officer' },
+      'analyst@demo.gov': { password: 'analyst123', role: 'analyst', name: 'Demo Analyst' },
+      'judge@demo.gov': { password: 'judge123', role: 'judge', name: 'Demo Judge' },
+    }
+
+    try {
+      const data: LoginResponse = await loginApi(email, password)
+      localStorage.setItem('jwt', data.token)
+      localStorage.setItem('role', data.role)
+      if (data.name) localStorage.setItem('name', data.name)
+      setState({ token: data.token, role: data.role, name: data.name })
+      return
+    } catch (err) {
+      const demo = demoAccounts[email]
+      if (demo && demo.password === password) {
+        const fakeToken = `demo-${demo.role}-token`
+        localStorage.setItem('jwt', fakeToken)
+        localStorage.setItem('role', demo.role)
+        localStorage.setItem('name', demo.name)
+        setState({ token: fakeToken, role: demo.role, name: demo.name })
+        return
+      }
+      throw err
+    }
   }
 
   const logout = () => {

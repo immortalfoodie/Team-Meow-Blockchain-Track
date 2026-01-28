@@ -1,11 +1,17 @@
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useEffect, useState } from 'react'
 
 export default function PoliceDashboard() {
   const { name } = useAuth()
+  const [animate, setAnimate] = useState(false)
+
+  useEffect(() => {
+    setAnimate(true)
+  }, [])
 
   return (
-    <div className="page role-officer">
+    <div className="page role-officer" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out' }}>
       <div className="hero">
         <div>
           <p className="muted">Evidence Intake & Custody</p>
@@ -27,7 +33,7 @@ export default function PoliceDashboard() {
         </div>
       </div>
       <div className="grid two">
-        <div className="card">
+        <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out 0.2s' }}>
           <h3>Registration checklist</h3>
           <ul className="list">
             <li>Capture agency evidence ID</li>
@@ -36,7 +42,7 @@ export default function PoliceDashboard() {
             <li>Submit to lock hash on-chain (via backend)</li>
           </ul>
         </div>
-        <div className="card">
+        <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out 0.3s' }}>
           <h3>Custody transfer reminders</h3>
           <ul className="list">
             <li>Confirm recipient identity</li>

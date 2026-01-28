@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import './App.css'
 import { ProtectedRoute } from './components/ProtectedRoute'
@@ -12,8 +13,36 @@ import JudgeDashboard from './pages/JudgeDashboard'
 import Login from './pages/Login'
 import PoliceDashboard from './pages/PoliceDashboard'
 
+function SplashScreen() {
+  // Image is served from the public folder as public/meow-logo.png
+  const meowLogoUrl = '/meow-logo.png'
+
+  return (
+    <div className="splash">
+      <div className="splash__orb">
+        <img src={meowLogoUrl} alt="Team Meow logo" className="splash__logo-image" />
+      </div>
+      <div className="splash__logo-ring">
+        <span className="splash__title">Team Meow</span>
+        <span className="splash__subtitle">Judicial Evidence Chain</span>
+      </div>
+      <div className="splash__loader" aria-label="Loading application">
+        <span />
+        <span />
+        <span />
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const { role, isAuthenticated } = useAuth()
+  const [showSplash, setShowSplash] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 5000)
+    return () => clearTimeout(timer)
+  }, [])
 
   const redirectToRole = () => {
     if (!isAuthenticated) return <Navigate to="/login" replace />
@@ -21,6 +50,14 @@ function App() {
     if (role === 'analyst') return <Navigate to="/analyst" replace />
     if (role === 'judge') return <Navigate to="/judge" replace />
     return <Navigate to="/login" replace />
+  }
+
+  if (showSplash) {
+    return (
+      <div className="app-shell">
+        <SplashScreen />
+      </div>
+    )
   }
 
   return (

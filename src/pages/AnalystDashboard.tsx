@@ -9,13 +9,15 @@ interface AssignedItem {
 
 export default function AnalystDashboard() {
   const [items, setItems] = useState<AssignedItem[]>([])
+  const [animate, setAnimate] = useState(false)
 
   useEffect(() => {
     fetchAssignedEvidence().then(setItems).catch(console.error)
+    setAnimate(true)
   }, [])
 
   return (
-    <div className="page">
+    <div className="page" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out' }}>
       <div className="hero">
         <div>
           <p className="muted">Forensic Workbench</p>
@@ -23,7 +25,7 @@ export default function AnalystDashboard() {
           <p>Review evidence assigned to you and coordinate with custody officers.</p>
         </div>
       </div>
-      <div className="card">
+      <div className="card" style={{ opacity: animate ? 1 : 0, transform: animate ? 'translateY(0)' : 'translateY(20px)', transition: 'all 0.6s ease-out 0.2s' }}>
         <h3>Assigned Evidence</h3>
         <table className="table">
           <thead>
