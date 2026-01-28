@@ -14,16 +14,13 @@ import Login from './pages/Login'
 import PoliceDashboard from './pages/PoliceDashboard'
 
 function SplashScreen() {
-  // Image is served from the public folder as public/meow-logo.png
-  const meowLogoUrl = '/meow-logo.png'
-
   return (
     <div className="splash">
       <div className="splash__orb">
-        <img src={meowLogoUrl} alt="Team Meow logo" className="splash__logo-image" />
+        <div style={{ fontSize: '4rem' }}>⚖️</div>
       </div>
       <div className="splash__logo-ring">
-        <span className="splash__title">Team Meow</span>
+        <span className="splash__title">Evidence System</span>
         <span className="splash__subtitle">Judicial Evidence Chain</span>
       </div>
       <div className="splash__loader" aria-label="Loading application">
