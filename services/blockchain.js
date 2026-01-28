@@ -7,14 +7,23 @@ const ABI = require("../abi/EvidenceABI.json");
 const RPC_URL = process.env.BLOCKCHAIN_RPC_URL || "http://127.0.0.1:7545";
 const CONTRACT_ADDR = process.env.CONTRACT_ADDRESS || "0xYOUR_CONTRACT_ADDRESS";
 const ACCOUNT = process.env.ACCOUNT_ADDRESS || "0xYOUR_GANACHE_ACCOUNT";
+const PRIVATE_KEY = process.env.ACCOUNT_PRIVATE_KEY || "";
 
 // web3 setup
 let web3 = null;
 let contract = null;
+let account = null;
 
 try {
   web3 = new Web3(RPC_URL);
   contract = new web3.eth.Contract(ABI, CONTRACT_ADDR);
+  
+  // Add account with private key for signing transactions
+  if (PRIVATE_KEY && PRIVATE_KEY !== "your-ganache-private-key-here") {
+    account = web3.eth.accounts.privateKeyToAccount(PRIVATE_KEY);
+    web3.eth.accounts.wallet.add(account);
+    console.log("[Blockchain] Account configured:", account.address);
+  }
 } catch (e) {
   console.log("Web3 init failed, using mock mode:", e.message);
 }

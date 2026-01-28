@@ -64,13 +64,24 @@ app.use((err, req, res, next) => {
 });
 
 // start
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log("\n=================================");
   console.log("  Evidence Chain Backend");
   console.log("=================================");
   console.log(`  Running on port ${PORT}`);
   console.log(`  http://localhost:${PORT}`);
   console.log("=================================\n");
+});
+
+// Keep server alive and handle graceful shutdown
+process.on("SIGTERM", () => {
+  console.log("SIGTERM received. Shutting down gracefully...");
+  server.close(() => process.exit(0));
+});
+
+process.on("SIGINT", () => {
+  console.log("\nSIGINT received. Shutting down gracefully...");
+  server.close(() => process.exit(0));
 });
 
 module.exports = app;
