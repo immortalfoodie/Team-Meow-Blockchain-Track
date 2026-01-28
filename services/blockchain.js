@@ -29,7 +29,13 @@ const mockDB = {
 async function isChainUp() {
   if (!web3) return false;
   try {
-    await web3.eth.getBlockNumber();
+    // Add timeout to prevent hanging
+    const blockPromise = web3.eth.getBlockNumber();
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Timeout')), 2000)
+    );
+    
+    await Promise.race([blockPromise, timeoutPromise]);
     return true;
   } catch (e) {
     return false;
@@ -133,8 +139,16 @@ async function getAllCaseEvidence(caseId) {
 
 // connection status
 async function getConnectionStatus() {
+  if (!web3) return { connected: false, error: "Web3 not initialized", usingMock: true };
+  
   try {
-    const block = await web3.eth.getBlockNumber();
+    // Add timeout to prevent hanging
+    const blockPromise = web3.eth.getBlockNumber();
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Connection timeout')), 3000)
+    );
+    
+    const block = await Promise.race([blockPromise, timeoutPromise]);
     return { connected: true, block: block.toString(), contract: CONTRACT_ADDR };
   } catch (e) {
     return { connected: false, error: e.message, usingMock: true };

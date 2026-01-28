@@ -30,30 +30,13 @@ const { getConnectionStatus } = require("./services/blockchain");
 const { getStats } = require("./services/audit");
 
 app.get("/api/health", async (req, res) => {
-  try {
-    // Add timeout to prevent hanging
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Timeout")), 5000)
-    );
-    
-    const bcStatusPromise = getConnectionStatus();
-    const bcStatus = await Promise.race([bcStatusPromise, timeoutPromise])
-      .catch(e => ({ connected: false, error: e.message, usingMock: true }));
-    
-    res.json({
-      status: "ok",
-      time: new Date().toISOString(),
-      blockchain: bcStatus,
-      audit: getStats()
-    });
-  } catch (err) {
-    res.json({
-      status: "ok",
-      time: new Date().toISOString(),
-      blockchain: { connected: false, error: err.message },
-      audit: getStats()
-    });
-  }
+  const bcStatus = await getConnectionStatus();
+  res.json({
+    status: "ok",
+    time: new Date().toISOString(),
+    blockchain: bcStatus,
+    audit: getStats()
+  });
 });
 
 // root - api info
